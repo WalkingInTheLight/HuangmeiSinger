@@ -1,4 +1,4 @@
-# A Dataset for Synthesizing Huangmei Opera Singing
+# HuangmeiSinger: A Dataset and A Branchformer-Diffusion Model for Huangmei Opera Synthesis
 
 
 ## Environments
