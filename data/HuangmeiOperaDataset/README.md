@@ -1,1 +1,1 @@
-Fill this [apply form](ApplyForm.txt) and send it to anonymous to get the dataset download link.
+Fill this [apply form](ApplyForm.txt) and send it to [anonymous] to get the dataset download link.
