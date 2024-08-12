@@ -1,0 +1,117 @@
+base_config:
+  - configs/base_config.yaml
+
+audio_sample_rate: 24000
+hop_size: 128            # Hop size.
+fft_size: 512           # FFT size.
+win_size: 512           # FFT size.
+fmin: 30
+fmax: 12000
+min_level_db: -120
+
+validate: true
+binarization_args:
+  with_wav: true
+  with_spk_embed: true
+  with_align: true
+  num_workers: 0
+raw_data_dir: 'data/raw/HOSD/segments'
+processed_data_dir: 'xxx'
+binarizer_cls: preprocessing.opera_binarizer.HuangOperaBinarizer
+
+gen_dir_name: 'use_opera'
+gen_tgt_spk_id: -1
+
+binary_data_dir: 'data/binary/HOSD'
+dictionary: dictionaries/opera.txt
+use_midi: true  #
+use_gt_f0: false  #
+use_gt_dur: false  #
+rel_pos: true
+use_nsf: true
+pe: 'parselmouth'
+
+task_cls: training.hmxopera_task.OperaTask
+vocoder: modules.vocoders.hifigan.HifiGAN
+vocoder_ckpt: checkpoints/0109_hifigan_bigpopcs_hop128
+
+
+fs2_ckpt: ''
+lr: 0.001 
+
+encoder_type: branchformer
+
+# for diffusion model
+diff_decoder_type: 'wavenet'
+schedule_type: 'linear'
+decay_steps: 50000  
+
+# for diffusion schedule
+K_step: 60
+timesteps: 100 # 500 / 100
+max_beta: 0.06
+diff_loss_type: l1  # l2
+
+
+pitch_prediction_args:
+  pitd_norm_min: 0.0
+  pitd_norm_max: 15.0  # 8.0
+  pitd_clip_min: -10.0 # -12.0
+  pitd_clip_max: 10.0  #12.0
+  repeat_bins: 4 # 64
+  residual_layers: 2 # 20
+  residual_channels: 16 # 256
+  dilation_cycle_length: 5  # *
+
+
+
+num_valid_plots: 10
+save_gt: true
+use_spk_embed: true  
+use_spk_id: true  
+#use_split_spk_id: false
+use_energy_embed: false
+use_pitch_embed: true
+use_ddsp: false
+
+use_diff_mel: false
+use_diffusion1: false
+use_diff: true
+pitch_norm: log 
+
+# object_check_interval: 200
+max_sentences: 48 # 48
+max_updates: 190000
+val_check_interval: 2000 # 2000
+max_frames: 8000
+
+
+
+datasets: [
+  'HuangmeiOpera',
+]
+
+speakers:
+  - Singer0
+  - Singer1
+  - Singer2
+  - Singer3
+  - Singer4
+  - Singer5
+
+spkids:
+  - HMX001
+  - HMX023
+  - HMX024
+  - HMX025
+  - HMX030
+  - HMX031
+
+num_spk: 6
+test_prefixes: [ 'HMX031083',
+                 'HMX031084', 
+                 'HMX031096',
+                 'HMX031198',
+                 'HMX031199',
+                 'HMX031201', 
+                 'HMX031206',]

@@ -1,0 +1,196 @@
+# task
+task_cls: ''
+tasks: ''
+work_dir: '' # experiment directory.
+infer: false # infer
+seed: 1234
+debug: false
+ddp_backend: 'nccl' # choose from 'gloo', 'nccl', 'nccl_no_p2p'
+save_codes:
+  - configs
+  - modules
+  - training
+  - utils
+
+#############
+# dataset
+#############
+raw_data_dir: ''
+processed_data_dir: ''
+binary_data_dir: ''
+dict_dir: ''
+binarizer_cls: basics.base_binarizer.BaseBinarizer
+# ds_workers: 1
+ds_workers: 4
+test_num: 0
+valid_num: 0
+endless_ds: true   
+sort_by_len: true
+
+binarization_args:
+  shuffle: false
+  with_txt: true
+  with_wav: false
+  with_align: true
+  with_spk_embed: true
+  with_f0: true
+
+loud_norm: false
+reset_phone_dict: true
+
+
+audio_num_mel_bins: 80
+audio_sample_rate: 22050
+hop_size: 128  # For 22050Hz, 275 ~= 12.5 ms (0.0125 * sample_rate)
+win_size: 512  # For 22050Hz, 1100 ~= 50 ms (If None, win_size: fft_size) (0.05 * sample_rate)
+fmin: 80  # Set this to 55 if your speaker is male! if female, 95 should help taking off noise. (To test depending on dataset. Pitch info: male~[65, 260], female~[100, 525])
+fmax: 11025  # To be increased/reduced depending on data.  # Maximum frequency in mel basis calculation.
+fft_size: 1024  # Extra window size is filled with 0 paddings to match this parameter
+min_level_db: -100
+# num_spk: 1
+mel_vmin: -6
+mel_vmax: 1.5
+
+#########
+# model
+#########
+dropout: 0.1
+enc_layers: 4
+dec_layers: 4
+hidden_size: 256
+num_heads: 2
+
+encoder_type: fft # fft|tacotron|tacotron2|conformer
+encoder_K: 8 # for tacotron encoder
+decoder_type: fft # fft|rnn|conv|conformer
+use_pos_embed: true
+
+prenet_dropout: 0.5
+prenet_hidden_size: 256
+stop_token_weight: 5.0
+enc_ffn_kernel_size: 9
+dec_ffn_kernel_size: 9
+ffn_act: gelu
+ffn_padding: 'SAME'
+
+
+###########
+# optimization
+###########
+lr: 2.0
+warmup_updates: 2000
+optimizer_adam_beta1: 0.9
+optimizer_adam_beta2: 0.98
+weight_decay: 0
+clip_grad_norm: 1
+#clip_grad_norm: 0
+
+#########
+# train and eval
+#########
+load_ckpt: ''
+save_ckpt: true
+save_best: false
+num_ckpt_keep: 3
+
+accumulate_grad_batches: 1
+log_interval: 100
+num_sanity_val_steps: 5  # steps of valid at the beginning
+check_val_every_n_epoch: 20
+val_check_interval: 2000
+max_epochs: 1000
+max_tokens: 40000
+max_updates: 160000
+max_sentences: 100000
+max_eval_sentences: 1
+max_eval_tokens: 60000
+max_frames: 5000
+max_input_tokens: 1550
+
+
+test_input_dir: ''
+
+train_set_name: 'train'
+valid_set_name: 'valid'
+test_set_name: 'test'
+vocoder: hifigan
+vocoder_ckpt: ''
+profile_infer: false
+out_wav_norm: false
+save_gt: false
+save_f0: true
+gen_dir_name: ''
+use_denoise: false
+
+pretrain_fs_ckpt: ''
+num_valid_plots: 5
+num_test_samples: 0
+test_ids: []
+
+use_gt_dur: false
+use_gt_f0: false
+
+
+# duration
+predictor_hidden: -1
+predictor_kernel: 5
+predictor_layers: 5  # 5/2
+dur_predictor_kernel: 3
+dur_predictor_layers: 5  # 5/2
+predictor_dropout: 0.5
+
+# pitch and energy
+use_pitch_embed: true
+pitch_type: frame # frame|ph|cwt  #########
+use_uv: true
+cwt_hidden_size: 128
+cwt_layers: 2
+cwt_loss: l1
+cwt_add_f0_loss: false
+cwt_std_scale: 0.8
+
+pitch_ar: false
+#pitch_embed_type: 0q
+pitch_loss: 'l1' # l1|l2|ssim
+pitch_norm: log
+use_energy_embed: false
+
+# reference encoder and speaker embedding
+use_spk_id: false
+use_split_spk_id: false
+use_spk_embed: false
+use_var_enc: false
+lambda_commit: 0.25
+ref_norm_layer: bn
+pitch_enc_hidden_stride_kernel:
+  - 0,2,5 # conv_hidden_size, conv_stride, conv_kernel_size. conv_hidden_size=0: use hidden_size
+  - 0,2,5
+  - 0,2,5
+dur_enc_hidden_stride_kernel:
+  - 0,2,3 # conv_hidden_size, conv_stride, conv_kernel_size. conv_hidden_size=0: use hidden_size
+  - 0,2,3
+  - 0,1,3
+
+
+# mel
+# mel_loss: l1|ssim
+mel_loss_w1: 0.5
+mel_loss_w2: 0.5
+# loss lambda
+lambda_f0: 1.0
+lambda_uv: 1.0
+lambda_energy: 0.1 # 0/0.1
+lambda_ph_dur: 0.5
+lambda_sent_dur: 0.3
+lambda_word_dur: 0.2
+predictor_grad: 0.1
+
+
+# exp
+dur_loss: mse # huber|mol
+norm_type: gn
+
+
+wav2spec_eps: 1e-6
+
+
