@@ -271,16 +271,18 @@ class BranchformerEncoderLayer(torch.nn.Module):
 
 class BranchformerEncoder_A(torch.nn.Module):
     """Branchformer encoder module."""
+    hp = hparams['branchformer__args']
+
     def __init__(
         self,
-        hidden_size: int = 256,
-        num_layers: int = 12,
+        hidden_size: int = hp['hidden_size'],  # 256,
+        num_layers: int = hp['num_layers'],  # 12,
         kernel_size: int = 9,
-        num_heads: int = 4,
-        cgmlp_linear_units: int = 256 * 4,   # 2048, 256 * 4
-        cgmlp_conv_kernel: int = 31,  # 31,
+        num_heads: int = hp['nums_head'],  # 4,
+        cgmlp_linear_units: int = hp['cgmlp_linear_units'],  # 256 * 4,   # 2048, 256 * 4
+        cgmlp_conv_kernel: int = hp['cgmlp_conv_kernel'],  # 31,  # 31,
         use_linear_after_conv: bool = False,
-        gate_activation: str = "Swich",   # identity",
+        gate_activation: str = hp['gate_activation'],  # "Swich",   # identity",
         merge_method: str = "concat",
         cgmlp_weight: float = 0.5,
         dropout_rate: float = 0.1,
