@@ -12,7 +12,7 @@
 
 2. Download the pre-trained [vocoder](https://github.com/MoonInTheRiver/DiffSinger/releases/download/pretrain-model/0109_hifigan_bigpopcs_hop128.zip) and unzip it to the `checkpoints` folder
 
-3. Download the [dataset](data/HuangmeiOpera_Dataset) and unzip it to the `data/raw` folder
+3. Download the [dataset](data/HuangmeiOperaDataset) and unzip it to the `data/raw` folder
 
 
 ## Preprocessing
