@@ -14,7 +14,7 @@ Reference:
 
 import logging
 from typing import List, Optional, Tuple, Union
-
+from utils.hparams import hparams
 import numpy
 import torch
 from torch import nn
